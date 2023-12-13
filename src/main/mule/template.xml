@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:http-transform="http://www.mulesoft.org/schema/mule/http-policy-transform"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:http-policy="http://www.mulesoft.org/schema/mule/http-policy"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+               http://www.mulesoft.org/schema/mule/http-policy http://www.mulesoft.org/schema/mule/http-policy/current/mule-http-policy.xsd
+               http://www.mulesoft.org/schema/mule/http-policy-transform http://www.mulesoft.org/schema/mule/http-policy-transform/current/mule-http-policy-transform.xsd">
+
+
+	<http-policy:proxy
+		name="{{{policyId}}}-custom-policy">
+		<http-policy:source>
+			<try doc:name="Try" doc:id="41d97c4b-a3ea-4c38-9a81-0bff2244dc4a">
+				<logger level="INFO" doc:name="Logger"
+					doc:id="dc7f96d0-806c-4cfa-b03b-6934a02caed9"
+					message="Logger from Custom Policy." />
+				<http-policy:execute-next />
+				<set-payload
+					value="Payload from Custom Policy after executing API call." />
+				<error-handler>
+					<on-error-continue enableNotifications="true"
+						logException="true" doc:name="On Error Continue"
+						doc:id="7fe5d0d9-4d84-4fe5-a717-077a5329b943" type="ANY">
+						<logger level="ERROR" doc:name="Logger"
+							doc:id="35551ab3-63fa-4f03-89b9-f5c9d7b0dbde"
+							message="{{{policyId}}}: Error - #[error.errorType] - #[error.description]" />
+						<http-transform:set-response
+							statusCode="200">
+							<http-transform:body>#['Application Exception captured in custom policy: ' ++ error.description]</http-transform:body>
+						</http-transform:set-response>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</http-policy:source>
+	</http-policy:proxy>
+</mule>

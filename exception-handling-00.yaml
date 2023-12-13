@@ -1,0 +1,11 @@
+id: exception-handling-00
+name: exception-handling-00
+description: exception-handling-00
+category: Custom
+type: custom
+resourceLevelSupported: true
+encryptionSupported: false
+standalone: true
+requiredCharacteristics: []
+providedCharacteristics: []
+configuration: []
