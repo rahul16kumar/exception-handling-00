@@ -6,4 +6,4 @@
 <br>
 **The response which is set in http-transform:set-response will get printed**
 <br>
-**So, overall flow execution will be like. 1. Logger from custom policy, 2. flows/loggers will be covered of application before the error has happened. Then on error cntinue block of custom policy will be printed.**
+**So, overall flow execution will be like. 1. Logger from custom policy, 2. flows/loggers will be covered of application before the error has happened. 3. Then on error cntinue block of custom policy will be printed.**
